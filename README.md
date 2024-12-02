@@ -30,10 +30,11 @@ g++ -fopenmp -o matrix_generation src/matrix_generation/original_matrix.cpp
 MacOS
 ```bash
 clang++ -Xpreprocessor -fopenmp \
-        -I/opt/homebrew/opt/libomp/include \
-        -L/opt/homebrew/opt/libomp/lib \
-        -lomp \
-        -o matrix_generation src/matrix_generation/original_matrix.cpp
+    -I/opt/homebrew/opt/libomp/include \
+    -I./include \
+    -L/opt/homebrew/opt/libomp/lib \
+    -lomp \
+    -o matrix_generation src/matrix_generation/original_matrix.cpp
 
 ./matrix_generation
 ```
