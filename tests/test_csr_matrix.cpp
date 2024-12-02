@@ -24,7 +24,7 @@ TEST(CSRMatrixTest, ToDenseConversion) {
     };
     CSRMatrix csr(denseMatrix);
 
-    DenseMatrix convertedDense;
+    DenseMatrix convertedDense(3, 3);
     csr.toDense(convertedDense);
 
     EXPECT_EQ(convertedDense, denseMatrix);

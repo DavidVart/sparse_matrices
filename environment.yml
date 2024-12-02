@@ -10,6 +10,7 @@ dependencies:
   - clangxx
   - doxygen
   - pip 
+  - libomp
   - pip:
     - breathe
     - sphinx

@@ -8,36 +8,25 @@
 
 namespace sparsematrix {
 
-COOMatrix::COOMatrix(const std::vector<std::vector<double>>& denseMatrix) {
-    numRows = denseMatrix.size();
-    if (numRows == 0) {
-        numCols = 0;
-    } else {
-        numCols = denseMatrix[0].size();
-    }
-
-    for (const auto& row : denseMatrix) {
-        if (row.size() != numCols) {
-            throw std::invalid_argument("All rows must have the same number of columns");
-        }
-    }
+COOMatrix::COOMatrix(const DenseMatrix& denseMatrix) {
+    numRows = denseMatrix.rows;
+    numCols = denseMatrix.cols;
 
     for (size_t i = 0; i < numRows; ++i) {
         for (size_t j = 0; j < numCols; ++j) {
-            if (denseMatrix[i][j] != 0) {
+            if (denseMatrix(i, j) != 0) {
                 rowIndices.push_back(i);
                 colIndices.push_back(j);
-                values.push_back(denseMatrix[i][j]);
+                values.push_back(denseMatrix(i, j));
             }
         }
     }
 }
 
-void COOMatrix::toDense(std::vector<std::vector<double>>& denseMatrix) const {
-    denseMatrix.clear();
-    denseMatrix.resize(numRows, std::vector<double>(numCols, 0));
+void COOMatrix::toDense(DenseMatrix& denseMatrix) const {
+    denseMatrix = DenseMatrix(numRows, numCols);
     for (size_t k = 0; k < values.size(); ++k) {
-        denseMatrix[rowIndices[k]][colIndices[k]] = values[k];
+        denseMatrix(rowIndices[k], colIndices[k]) = values[k];
     }
 }
 

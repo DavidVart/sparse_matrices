@@ -47,12 +47,12 @@ target_include_directories(test_sparse_matrix PRIVATE ${CMAKE_SOURCE_DIR}/includ
 # Link the SPARSE_MATRIX library and Google Test to the test executable
 target_link_libraries(SPARSE_MATRIX_TESTS SPARSE_MATRIX GTest::gtest_main)
 
-# Link the SPARSE_MATRIX library to the test executables
-target_link_libraries(test_coo_matrix SPARSE_MATRIX)
-target_link_libraries(test_csc_matrix SPARSE_MATRIX)
-target_link_libraries(test_csr_matrix SPARSE_MATRIX)
-target_link_libraries(test_diagonal_matrix SPARSE_MATRIX)
-target_link_libraries(test_sparse_matrix SPARSE_MATRIX)
+# Link the SPARSE_MATRIX library and Google Test to the individual test executables
+target_link_libraries(test_coo_matrix SPARSE_MATRIX GTest::gtest_main)
+target_link_libraries(test_csc_matrix SPARSE_MATRIX GTest::gtest_main)
+target_link_libraries(test_csr_matrix SPARSE_MATRIX GTest::gtest_main)
+target_link_libraries(test_diagonal_matrix SPARSE_MATRIX GTest::gtest_main)
+target_link_libraries(test_sparse_matrix SPARSE_MATRIX GTest::gtest_main)
 
 # Enable testing
 enable_testing()

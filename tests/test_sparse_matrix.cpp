@@ -14,7 +14,7 @@ TEST(SparseMatrixTest, ConversionToCSR) {
     SparseMatrix* sparse = SparseMatrix::fromDense(denseMatrix, "CSR");
     EXPECT_NE(sparse, nullptr);
 
-    DenseMatrix convertedDense;
+    DenseMatrix convertedDense(3, 3);
     sparse->toDense(convertedDense);
 
     EXPECT_EQ(convertedDense, denseMatrix);
@@ -32,7 +32,7 @@ TEST(SparseMatrixTest, ConversionToCSC) {
     SparseMatrix* sparse = SparseMatrix::fromDense(denseMatrix, "CSC");
     EXPECT_NE(sparse, nullptr);
 
-    DenseMatrix convertedDense;
+    DenseMatrix convertedDense(3, 3);
     sparse->toDense(convertedDense);
 
     EXPECT_EQ(convertedDense, denseMatrix);

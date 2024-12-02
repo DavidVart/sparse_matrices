@@ -17,7 +17,7 @@ TEST(DiagonalMatrixTest, ConstructionFromDense) {
 }
 
 TEST(DiagonalMatrixTest, GetElement) {
-    std::vector<std::vector<double>> denseMatrix = {
+    DenseMatrix denseMatrix = {
         {1, 0, 0},
         {0, 2, 0},
         {0, 0, 3}
@@ -38,7 +38,7 @@ TEST(DiagonalMatrixTest, ToDenseConversion) {
     };
     DiagonalMatrix diag(denseMatrix);
 
-    DenseMatrix convertedDense;
+    DenseMatrix convertedDense(3, 3);
     diag.toDense(convertedDense);
 
     EXPECT_EQ(convertedDense, denseMatrix);

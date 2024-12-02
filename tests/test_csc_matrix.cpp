@@ -24,7 +24,7 @@ TEST(CSCMatrixTest, ToDenseConversion) {
     };
     CSCMatrix csc(denseMatrix);
 
-    DenseMatrix convertedDense;
+    DenseMatrix convertedDense(3, 3);
     csc.toDense(convertedDense);
 
     EXPECT_EQ(convertedDense, denseMatrix);

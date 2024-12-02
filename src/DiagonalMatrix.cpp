@@ -8,32 +8,21 @@
 
 namespace sparsematrix {
 
-DiagonalMatrix::DiagonalMatrix(const std::vector<std::vector<double>>& denseMatrix) {
-    numRows = denseMatrix.size();
-    if (numRows == 0) {
-        numCols = 0;
-    } else {
-        numCols = denseMatrix[0].size();
-    }
-
-    for (const auto& row : denseMatrix) {
-        if (row.size() != numCols) {
-            throw std::invalid_argument("All rows must have the same number of columns");
-        }
-    }
+DiagonalMatrix::DiagonalMatrix(const DenseMatrix& denseMatrix) {
+    numRows = denseMatrix.rows;
+    numCols = denseMatrix.cols;
 
     for (size_t i = 0; i < numRows && i < numCols; ++i) {
-        if (denseMatrix[i][i] != 0) {
-            values.push_back(denseMatrix[i][i]);
+        if (denseMatrix(i, i) != 0) {
+            values.push_back(denseMatrix(i, i));
         }
     }
 }
 
-void DiagonalMatrix::toDense(std::vector<std::vector<double>>& denseMatrix) const {
-    denseMatrix.clear();
-    denseMatrix.resize(numRows, std::vector<double>(numCols, 0));
+void DiagonalMatrix::toDense(DenseMatrix& denseMatrix) const {
+    denseMatrix = DenseMatrix(numRows, numCols);
     for (size_t i = 0; i < values.size(); ++i) {
-        denseMatrix[i][i] = values[i];
+        denseMatrix(i, i) = values[i];
     }
 }
 

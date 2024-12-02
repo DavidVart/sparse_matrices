@@ -26,4 +26,11 @@ add_executable(main_exec main.cpp)
 set_target_properties(main_exec PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 # Link the SPARSE_MATRIX library to the main executable
-target_link_libraries(main_exec SPARSE_MATRIX)
+target_link_libraries(main_exec PRIVATE SPARSE_MATRIX)
+
+# Find and link OpenMP
+find_package(OpenMP REQUIRED)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(SPARSE_MATRIX PUBLIC OpenMP::OpenMP_CXX)
+    target_link_libraries(main_exec PRIVATE OpenMP::OpenMP_CXX)
+endif()

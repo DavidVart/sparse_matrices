@@ -7,25 +7,19 @@
 #ifndef SPARSEMATRIX_H
 #define SPARSEMATRIX_H
 
-#include <vector>
+#include "DenseMatrix.h"
 #include <string>
 
 namespace sparsematrix {
 
 class SparseMatrix {
 public:
-    virtual ~SparseMatrix() = default;
+    virtual ~SparseMatrix() = default; // Virtual destructor
 
-    // Factory method to create a SparseMatrix from a dense matrix
-    static SparseMatrix* fromDense(const std::vector<std::vector<double>>& denseMatrix, const std::string& format);
+    static SparseMatrix* fromDense(const DenseMatrix& denseMatrix, const std::string& format);
 
-    // Pure virtual method to convert a sparse matrix to a dense matrix
-    virtual void toDense(std::vector<std::vector<double>>& denseMatrix) const = 0;
-
-    // Pure virtual method to get the number of non-zero elements
+    virtual void toDense(DenseMatrix& denseMatrix) const = 0;
     virtual size_t getNNZ() const = 0;
-
-    // Pure virtual method to get the shape of the matrix
     virtual std::pair<size_t, size_t> getShape() const = 0;
 };
 

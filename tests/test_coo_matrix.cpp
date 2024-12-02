@@ -24,7 +24,7 @@ TEST(COOMatrixTest, ToDenseConversion) {
     };
     COOMatrix coo(denseMatrix);
 
-    DenseMatrix convertedDense;
+    DenseMatrix convertedDense(3, 3);
     coo.toDense(convertedDense);
 
     EXPECT_EQ(convertedDense, denseMatrix);
