@@ -49,8 +49,8 @@ g++ -fopenmp -Iinclude -o matrix_multiplication src/matrix_operations/matrix_mul
 MacOS
 ```bash
 g++-14 -fopenmp -Iinclude \
-       -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk \
-       -o matrix_multiplication src/matrix_operations/matrix_multiplication.cpp src/CSRMatrix.cpp
+    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk \
+    -o matrix_multiplication src/matrix_operations/matrix_multiplication.cpp src/CSRMatrix.cpp
 
 ./matrix_multiplication
 ```
