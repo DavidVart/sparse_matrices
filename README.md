@@ -30,10 +30,11 @@ g++ -fopenmp -o matrix_generation src/matrix_generation/original_matrix.cpp
 MacOS
 ```bash
 clang++ -Xpreprocessor -fopenmp \
-        -I/opt/homebrew/opt/libomp/include \
-        -L/opt/homebrew/opt/libomp/lib \
-        -lomp \
-        -o matrix_generation src/matrix_generation/original_matrix.cpp
+    -I/opt/homebrew/opt/libomp/include \
+    -I./include \
+    -L/opt/homebrew/opt/libomp/lib \
+    -lomp \
+    -o matrix_generation src/matrix_generation/original_matrix.cpp
 
 ./matrix_generation
 ```
@@ -48,8 +49,8 @@ g++ -fopenmp -Iinclude -o matrix_multiplication src/matrix_operations/matrix_mul
 MacOS
 ```bash
 g++-14 -fopenmp -Iinclude \
-       -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk \
-       -o matrix_multiplication src/matrix_operations/matrix_multiplication.cpp src/CSRMatrix.cpp
+    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk \
+    -o matrix_multiplication src/matrix_operations/matrix_multiplication.cpp src/CSRMatrix.cpp
 
 ./matrix_multiplication
 ```
