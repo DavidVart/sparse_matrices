@@ -1,32 +1,35 @@
-// COOMatrix: Implements the constructor to convert a dense matrix to COO format.
-// toDense: Converts the COO matrix to a dense matrix.
-// getNNZ: Returns the number of non-zero elements.
-// getShape: Returns the shape of the matrix.
-
 #include "COOMatrix.h"
 #include <stdexcept>
 
 namespace sparsematrix {
 
 COOMatrix::COOMatrix(const DenseMatrix& denseMatrix) {
-    numRows = denseMatrix.rows;
-    numCols = denseMatrix.cols;
+    if (denseMatrix.rows == 0 || denseMatrix.cols == 0) {
+        rows = 0;
+        cols = 0;
+        return;
+    }
+    if (denseMatrix.rows != denseMatrix.cols) {
+        throw std::invalid_argument("COOMatrix must be square.");
+    }
+    rows = denseMatrix.rows;
+    cols = denseMatrix.cols;
 
-    for (size_t i = 0; i < numRows; ++i) {
-        for (size_t j = 0; j < numCols; ++j) {
+    for (size_t i = 0; i < rows; ++i) {
+        for (size_t j = 0; j < cols; ++j) {
             if (denseMatrix(i, j) != 0) {
-                rowIndices.push_back(i);
-                colIndices.push_back(j);
                 values.push_back(denseMatrix(i, j));
+                row_indices.push_back(i);
+                col_indices.push_back(j);
             }
         }
     }
 }
 
 void COOMatrix::toDense(DenseMatrix& denseMatrix) const {
-    denseMatrix = DenseMatrix(numRows, numCols);
+    denseMatrix = DenseMatrix(rows, cols);
     for (size_t k = 0; k < values.size(); ++k) {
-        denseMatrix(rowIndices[k], colIndices[k]) = values[k];
+        denseMatrix(row_indices[k], col_indices[k]) = values[k];
     }
 }
 
@@ -35,7 +38,7 @@ size_t COOMatrix::getNNZ() const {
 }
 
 std::pair<size_t, size_t> COOMatrix::getShape() const {
-    return {numRows, numCols};
+    return {rows, cols};
 }
 
 } // namespace sparsematrix

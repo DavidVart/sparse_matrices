@@ -1,37 +1,38 @@
-// CSCMatrix: Implements the constructor to convert a dense matrix to CSC format.
-// toDense: Converts the CSC matrix to a dense matrix.
-// getNNZ: Returns the number of non-zero elements.
-// getShape: Returns the shape of the matrix.
-
 #include "CSCMatrix.h"
 #include <stdexcept>
 
 namespace sparsematrix {
 
 CSCMatrix::CSCMatrix(const DenseMatrix& denseMatrix) {
-    numRows = denseMatrix.rows;
-    numCols = denseMatrix.cols;
+    if (denseMatrix.rows == 0 || denseMatrix.cols == 0) {
+        rows = 0;
+        cols = 0;
+        col_ptrs.push_back(0); // Ensure col_ptrs is initialized
+        return;
+    }
+    if (denseMatrix.rows != denseMatrix.cols) {
+        throw std::invalid_argument("CSCMatrix must be square.");
+    }
+    rows = denseMatrix.rows;
+    cols = denseMatrix.cols;
+    col_ptrs.push_back(0);
 
-    colPtrs.resize(numCols + 1, 0);
-    for (size_t j = 0; j < numCols; ++j) {
-        for (size_t i = 0; i < numRows; ++i) {
+    for (size_t j = 0; j < cols; ++j) {
+        for (size_t i = 0; i < rows; ++i) {
             if (denseMatrix(i, j) != 0) {
-                rowIndices.push_back(i);
                 values.push_back(denseMatrix(i, j));
-                colPtrs[j + 1]++;
+                row_indices.push_back(i);
             }
         }
-    }
-    for (size_t j = 1; j <= numCols; ++j) {
-        colPtrs[j] += colPtrs[j - 1];
+        col_ptrs.push_back(values.size());
     }
 }
 
 void CSCMatrix::toDense(DenseMatrix& denseMatrix) const {
-    denseMatrix = DenseMatrix(numRows, numCols);
-    for (size_t j = 0; j < numCols; ++j) {
-        for (size_t k = colPtrs[j]; k < colPtrs[j + 1]; ++k) {
-            denseMatrix(rowIndices[k], j) = values[k];
+    denseMatrix = DenseMatrix(rows, cols);
+    for (size_t j = 0; j < cols; ++j) {
+        for (size_t i = col_ptrs[j]; i < col_ptrs[j + 1]; ++i) {
+            denseMatrix(row_indices[i], j) = values[i];
         }
     }
 }
@@ -41,7 +42,7 @@ size_t CSCMatrix::getNNZ() const {
 }
 
 std::pair<size_t, size_t> CSCMatrix::getShape() const {
-    return {numRows, numCols};
+    return {rows, cols};
 }
 
 } // namespace sparsematrix

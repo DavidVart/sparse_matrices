@@ -1,31 +1,59 @@
-// DiagonalMatrix: A class representing a sparse matrix in diagonal format.
-// toDense: Converts the diagonal matrix to a dense matrix.
-// getNNZ: Returns the number of non-zero elements.
-// getShape: Returns the shape of the matrix.
+/**
+ * @file DiagonalMatrix.h
+ * @brief Header file for the DiagonalMatrix class.
+ */
 
 #ifndef DIAGONALMATRIX_H
 #define DIAGONALMATRIX_H
 
 #include "SparseMatrix.h"
 #include "DenseMatrix.h"
+#include <stdexcept>
 #include <vector>
-#include <utility>
 
 namespace sparsematrix {
 
+/**
+ * @class DiagonalMatrix
+ * @brief Class representing a diagonal matrix.
+ */
 class DiagonalMatrix : public SparseMatrix {
 public:
-    explicit DiagonalMatrix(const DenseMatrix& denseMatrix);
+    /**
+     * @brief Constructs a DiagonalMatrix from a DenseMatrix.
+     * @param dense The dense matrix to convert.
+     */
+    DiagonalMatrix(const DenseMatrix& dense);
 
-    void toDense(DenseMatrix& denseMatrix) const override;
+    /**
+     * @brief Converts the DiagonalMatrix to a DenseMatrix.
+     * @param dense The dense matrix to store the result.
+     */
+    void toDense(DenseMatrix& dense) const override;
+
+    /**
+     * @brief Gets the number of non-zero elements in the matrix.
+     * @return The number of non-zero elements.
+     */
     size_t getNNZ() const override;
+
+    /**
+     * @brief Gets the shape of the matrix.
+     * @return A pair representing the number of rows and columns.
+     */
     std::pair<size_t, size_t> getShape() const override;
-    double getElement(size_t row, size_t col) const;
+
+    /**
+     * @brief Gets the element at the specified position.
+     * @param i The row index.
+     * @param j The column index.
+     * @return The element at the specified position.
+     */
+    double getElement(size_t i, size_t j) const;
 
 private:
-    size_t numRows;
-    size_t numCols;
-    std::vector<double> values;
+    size_t rows, cols;
+    std::vector<double> diag_values;
 };
 
 } // namespace sparsematrix

@@ -8,15 +8,17 @@
 #include "CSRMatrix.h"
 #include "DenseMatrix.h"
 
+using namespace sparsematrix;
+
 // Function to read a dense matrix from a file
-sparsematrix::DenseMatrix read_matrix(const std::string& file_path) {
+DenseMatrix read_matrix(const std::string& file_path) {
     std::ifstream file(file_path);
     std::vector<std::string> lines;
     std::string line;
 
     if (!file.is_open()) {
         std::cerr << "Error: Could not open file " << file_path << std::endl;
-        return sparsematrix::DenseMatrix(0, 0);
+        return DenseMatrix(0, 0);
     }
 
     while (std::getline(file, line)) {
@@ -33,7 +35,7 @@ sparsematrix::DenseMatrix read_matrix(const std::string& file_path) {
         }
     }
 
-    sparsematrix::DenseMatrix matrix(rows, cols);
+    DenseMatrix matrix(rows, cols);
 
     #pragma omp parallel for
     for (size_t i = 0; i < rows; ++i) {
@@ -48,7 +50,7 @@ sparsematrix::DenseMatrix read_matrix(const std::string& file_path) {
 }
 
 // Function to write a matrix to a file
-void write_matrix(const sparsematrix::DenseMatrix& matrix, const std::string& file_path) {
+void write_matrix(const DenseMatrix& matrix, const std::string& file_path) {
     std::ofstream file(file_path);
     if (!file.is_open()) {
         std::cerr << "Error: Could not open file " << file_path << " for writing." << std::endl;
@@ -70,8 +72,8 @@ int main() {
     std::string file2 = "src/matrix_generation/output/dense_matrix_2.txt";
     std::string output_file = "src/matrix_operations/output/result_matrix.txt";
 
-    sparsematrix::DenseMatrix dense_matrix1 = read_matrix(file1);
-    sparsematrix::DenseMatrix dense_matrix2 = read_matrix(file2);
+    DenseMatrix dense_matrix1 = read_matrix(file1);
+    DenseMatrix dense_matrix2 = read_matrix(file2);
 
     if (dense_matrix1.rows == 0 || dense_matrix2.rows == 0) {
         std::cerr << "Error: One of the matrices is empty." << std::endl;
@@ -83,10 +85,10 @@ int main() {
         return 1;
     }
 
-    sparsematrix::CSRMatrix sparse_matrix1(dense_matrix1);
-    sparsematrix::CSRMatrix sparse_matrix2(dense_matrix2);
+    CSRMatrix sparse_matrix1(dense_matrix1);
+    CSRMatrix sparse_matrix2(dense_matrix2);
 
-    sparsematrix::DenseMatrix result_matrix = sparsematrix::multiply_sparse_matrices(sparse_matrix1, sparse_matrix2);
+    DenseMatrix result_matrix = multiply_sparse_matrices(sparse_matrix1, sparse_matrix2);
 
     write_matrix(result_matrix, output_file);
 

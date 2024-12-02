@@ -1,47 +1,51 @@
 #include "CSRMatrix.h"
-#include <iostream>
+#include <stdexcept>
 #include <unordered_map>
 
 namespace sparsematrix {
 
-// Constructor to create a CSR matrix from a dense matrix
 CSRMatrix::CSRMatrix(const DenseMatrix& denseMatrix) {
-    numRows = denseMatrix.rows;
-    numCols = denseMatrix.cols;
-    rowPtrs.push_back(0);
+    if (denseMatrix.rows == 0 || denseMatrix.cols == 0) {
+        rows = 0;
+        cols = 0;
+        row_ptrs.push_back(0); // Ensure row_ptrs is initialized
+        return;
+    }
+    if (denseMatrix.rows != denseMatrix.cols) {
+        throw std::invalid_argument("CSRMatrix must be square.");
+    }
+    rows = denseMatrix.rows;
+    cols = denseMatrix.cols;
+    row_ptrs.push_back(0);
 
-    for (size_t i = 0; i < numRows; ++i) {
-        for (size_t j = 0; j < numCols; ++j) {
+    for (size_t i = 0; i < rows; ++i) {
+        for (size_t j = 0; j < cols; ++j) {
             if (denseMatrix(i, j) != 0) {
                 values.push_back(denseMatrix(i, j));
-                colIndices.push_back(j);
+                col_indices.push_back(j);
             }
         }
-        rowPtrs.push_back(values.size());
+        row_ptrs.push_back(values.size());
     }
 }
 
-// Converts the CSR matrix back to a dense matrix
 void CSRMatrix::toDense(DenseMatrix& denseMatrix) const {
-    denseMatrix = DenseMatrix(numRows, numCols);
-    for (size_t i = 0; i < numRows; ++i) {
-        for (size_t j = rowPtrs[i]; j < rowPtrs[i + 1]; ++j) {
-            denseMatrix(i, colIndices[j]) = values[j];
+    denseMatrix = DenseMatrix(rows, cols);
+    for (size_t i = 0; i < rows; ++i) {
+        for (size_t j = row_ptrs[i]; j < row_ptrs[i + 1]; ++j) {
+            denseMatrix(i, col_indices[j]) = values[j];
         }
     }
 }
 
-// Get the number of non-zero elements
 size_t CSRMatrix::getNNZ() const {
     return values.size();
 }
 
-// Get the shape of the matrix as {rows, columns}
 std::pair<size_t, size_t> CSRMatrix::getShape() const {
-    return {numRows, numCols};
+    return {rows, cols};
 }
 
-// Function to multiply two sparse matrices
 DenseMatrix multiply_sparse_matrices(const CSRMatrix& mat1, const CSRMatrix& mat2) {
     if (mat1.getShape().second != mat2.getShape().first) {
         throw std::invalid_argument("Matrix dimensions do not match for multiplication.");

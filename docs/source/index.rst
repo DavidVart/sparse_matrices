@@ -1,13 +1,7 @@
 |project| documentation
-===================================
+=======================
 
 Welcome to the landing page!
-
-A section
-----------
-
-.. doxygennamespace:: homework
-
 
 Docs
 ====
@@ -15,3 +9,21 @@ Docs
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   modules
+
+API Documentation
+=================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API:
+
+   api/modules
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

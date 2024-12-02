@@ -1,37 +1,80 @@
-#ifndef CSR_MATRIX_H
-#define CSR_MATRIX_H
+/**
+ * @file CSRMatrix.h
+ * @brief Header file for the CSRMatrix class.
+ */
+
+#ifndef CSRMATRIX_H
+#define CSRMATRIX_H
 
 #include "SparseMatrix.h"
 #include "DenseMatrix.h"
+#include <stdexcept>
 #include <vector>
-#include <utility>
 
 namespace sparsematrix {
 
+/**
+ * @class CSRMatrix
+ * @brief Class representing a Compressed Sparse Row (CSR) matrix.
+ */
 class CSRMatrix : public SparseMatrix {
 public:
-    explicit CSRMatrix(const DenseMatrix& denseMatrix);
+    /**
+     * @brief Constructs a CSRMatrix from a DenseMatrix.
+     * @param dense The dense matrix to convert.
+     */
+    CSRMatrix(const DenseMatrix& dense);
 
-    void toDense(DenseMatrix& denseMatrix) const override;
+    /**
+     * @brief Converts the CSRMatrix to a DenseMatrix.
+     * @param dense The dense matrix to store the result.
+     */
+    void toDense(DenseMatrix& dense) const override;
+
+    /**
+     * @brief Gets the number of non-zero elements in the matrix.
+     * @return The number of non-zero elements.
+     */
     size_t getNNZ() const override;
+
+    /**
+     * @brief Gets the shape of the matrix.
+     * @return A pair representing the number of rows and columns.
+     */
     std::pair<size_t, size_t> getShape() const override;
 
-    // Public getter methods for private members
-    const std::vector<size_t>& getRowPtrs() const { return rowPtrs; }
-    const std::vector<size_t>& getColIndices() const { return colIndices; }
+    /**
+     * @brief Gets the column indices of the non-zero elements.
+     * @return A vector of column indices.
+     */
+    const std::vector<size_t>& getColIndices() const { return col_indices; }
+
+    /**
+     * @brief Gets the row pointers of the matrix.
+     * @return A vector of row pointers.
+     */
+    const std::vector<size_t>& getRowPtrs() const { return row_ptrs; }
+
+    /**
+     * @brief Gets the values of the non-zero elements.
+     * @return A vector of values.
+     */
     const std::vector<double>& getValues() const { return values; }
 
 private:
-    size_t numRows;
-    size_t numCols;
-    std::vector<size_t> rowPtrs;
-    std::vector<size_t> colIndices;
+    size_t rows, cols;
+    std::vector<size_t> col_indices, row_ptrs;
     std::vector<double> values;
 };
 
-// Function to multiply two sparse matrices
+/**
+ * @brief Multiplies two CSR matrices and returns the result as a DenseMatrix.
+ * @param mat1 The first CSR matrix.
+ * @param mat2 The second CSR matrix.
+ * @return The result of the multiplication as a DenseMatrix.
+ */
 DenseMatrix multiply_sparse_matrices(const CSRMatrix& mat1, const CSRMatrix& mat2);
 
 } // namespace sparsematrix
 
-#endif // CSR_MATRIX_H
+#endif // CSRMATRIX_H

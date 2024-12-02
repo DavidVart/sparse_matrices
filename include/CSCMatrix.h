@@ -1,31 +1,50 @@
-// CSCMatrix: A class representing a sparse matrix in CSC format.
-// toDense: Converts the CSC matrix to a dense matrix.
-// getNNZ: Returns the number of non-zero elements.
-// getShape: Returns the shape of the matrix.
+/**
+ * @file CSCMatrix.h
+ * @brief Header file for the CSCMatrix class.
+ */
 
 #ifndef CSCMATRIX_H
 #define CSCMATRIX_H
 
 #include "SparseMatrix.h"
-#include "DenseMatrix.h"
+#include <stdexcept>
 #include <vector>
-#include <utility>
 
 namespace sparsematrix {
 
+/**
+ * @class CSCMatrix
+ * @brief Class representing a sparse matrix in CSC (Compressed Sparse Column) format.
+ */
 class CSCMatrix : public SparseMatrix {
 public:
-    explicit CSCMatrix(const DenseMatrix& denseMatrix);
+    /**
+     * @brief Constructs a CSCMatrix from a DenseMatrix.
+     * @param dense The dense matrix to convert.
+     */
+    CSCMatrix(const DenseMatrix& dense);
 
-    void toDense(DenseMatrix& denseMatrix) const override;
+    /**
+     * @brief Converts the CSCMatrix to a DenseMatrix.
+     * @param dense The dense matrix to store the result.
+     */
+    void toDense(DenseMatrix& dense) const override;
+
+    /**
+     * @brief Gets the number of non-zero elements in the matrix.
+     * @return The number of non-zero elements.
+     */
     size_t getNNZ() const override;
+
+    /**
+     * @brief Gets the shape of the matrix.
+     * @return A pair representing the number of rows and columns.
+     */
     std::pair<size_t, size_t> getShape() const override;
 
 private:
-    size_t numRows;
-    size_t numCols;
-    std::vector<size_t> colPtrs;
-    std::vector<size_t> rowIndices;
+    size_t rows, cols;
+    std::vector<size_t> row_indices, col_ptrs;
     std::vector<double> values;
 };
 
