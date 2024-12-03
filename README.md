@@ -6,9 +6,26 @@ This is a project that converts Sparse Matrices into CSR Matrices, which are the
 
 Install the dependencies using conda:
 
+Windows:
+
 ```bash
-conda env create -f environment.yml
+conda env create -f environment-windows.yml
 ```
+
+Linux:
+
+```bash
+conda env create -f environment-linux.yml
+```
+
+MacOS:
+
+Windows:
+
+```bash
+conda env create -f environment-macos.yml
+```
+
 This will create a conda environment called `sparse_matrix_project` which you can activate with:
 
 ```bash
