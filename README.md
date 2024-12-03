@@ -20,8 +20,6 @@ conda env create -f environment-linux.yml
 
 MacOS:
 
-Windows:
-
 ```bash
 conda env create -f environment-macos.yml
 ```
