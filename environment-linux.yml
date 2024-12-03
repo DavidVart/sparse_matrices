@@ -1,0 +1,16 @@
+name: sparse_matrix_project
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - cmake
+  - ninja
+  - make
+  - clangxx
+  - doxygen
+  - libgomp # [linux]
+  - pip
+  - pip:
+    - breathe
+    - sphinx

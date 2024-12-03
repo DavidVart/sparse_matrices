@@ -9,8 +9,7 @@ dependencies:
   - make
   - clangxx
   - doxygen
-  - pip 
-  - libomp
+  - pip
   - pip:
     - breathe
     - sphinx

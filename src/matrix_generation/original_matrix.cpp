@@ -47,8 +47,8 @@ void write_matrix_to_file(const std::string& output_file, const sparsematrix::De
 int main(int argc, char* argv[]) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    int rows = 10000;
-    int cols = 10000;
+    int rows = 1000;
+    int cols = 1000;
     double sparsity = 0.95;
     std::string output_dir = "src/matrix_generation/output";
 
